@@ -8,13 +8,16 @@ int main() {
 
     etcd::Client etcd("http://127.0.0.1:2379");
 
+    etcd::Response resp = etcd.get("/Common/Data").get();
 
-    etcd::Response resp = etcd.add("/test/key1", "42").get();
+    std::cout << "Error code: " << resp.error_code() << std::endl;
+    std::cout << "Is_OK: " << resp.is_ok() << std::endl;
+    resp = etcd.get("/Common/Log").get();
 
     std::cout << "Error code: " << resp.error_code() << std::endl;
     std::cout << "Is_OK: " << resp.is_ok() << std::endl;
 
-//    etcd::Response resp = etcd.get("/Common/Log");
+    std::cout << "Value: " << resp.value().as_string() << std::endl;
 
     return 0;
 }
